@@ -174,7 +174,7 @@ func (r *runtime) ConfigRuntime(ctx context.Context) error {
 func (r *runtime) ImportImages(ctx context.Context, refs ...string) error {
 	ctx = namespaces.WithNamespace(ctx, r.namespace)
 
-	ctx, cancel, err := r.client.WithLease(ctx, leases.WithRandomID(), leases.WithLabels(map[string]string{"containerd.io/gc.expire": "2999-01-02T15:04:05Z"}))
+	ctx, cancel, err := r.client.WithLease(ctx, leases.WithRandomID(), leases.WithExpiration(240000 * time.Hour))
 	if err != nil {
 		return fmt.Errorf("add lease: %w", err)
 	}
